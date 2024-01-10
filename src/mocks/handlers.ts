@@ -1,7 +1,6 @@
 // src/mocks/handlers.ts
 import { http, HttpResponse } from "msw";
 import { getBaseUrl } from "./utils";
-import { getUsers } from "../services/api";
 
 export const handlers = [
 
