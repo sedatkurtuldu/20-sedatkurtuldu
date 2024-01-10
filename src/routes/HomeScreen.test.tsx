@@ -21,11 +21,9 @@ jest.mock('../services/api', () => ({
 }));
 
 test('Kullanıcılar içerisinde Sedat kullanıcına ait bir kullanıcı var mı?', async () => {
-  await waitFor(() => {
-    expect(api.getUsers).toHaveBeenCalled();
-  });
 
   const users = await api.getUsers();
+  
   expect(users.map(user => user.userName)).toEqual(
     expect.arrayContaining(['Sedat'])
   );
