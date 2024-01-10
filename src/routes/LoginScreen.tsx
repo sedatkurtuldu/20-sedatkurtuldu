@@ -11,7 +11,7 @@ const LoginScreen = ({navigation}) => {
 
   const  handleLogin = async () => {
     try {
-        const userExists = await checkUserExists(password);
+        const userExists = await checkUserExists(username,password);
     
         if (userExists) {
           navigation.navigate("HomeScreen");

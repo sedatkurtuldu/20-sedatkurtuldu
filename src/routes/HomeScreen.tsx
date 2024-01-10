@@ -1,7 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { getUsers } from '../services/api';
 
 
@@ -19,19 +17,18 @@ export default function HomeScreen() {
   
 
   return (
-    <SafeAreaView>
+    <View style={styles.container}>
        <FlatList
         data={users}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View>
-            <Text>Username: {item.userName}</Text>
-            <Text>Password: {item.password}</Text>
+            <Text>Kullanıcı Adı: {item.userName}</Text>
+            <Text>Parola: {item.password}</Text>
           </View>
         )}
       />
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    </View>
   );
 }
 

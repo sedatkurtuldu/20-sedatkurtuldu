@@ -30,11 +30,15 @@ const TABLE = "Users";
     return getUsers;
   };
 
-  export const checkUserExists = async (password) => {
+  export const checkUserExists = async (username, password) => {
     const usersCollection = collection(db, TABLE);
   
-    const query = firestoreQuery(usersCollection, where("password", "==", password));
+    const query = firestoreQuery(usersCollection, 
+      where("userName", "==", username),
+      where("password", "==", password));
+      
     const snapshot = await getDocs(query);
   
     return !snapshot.empty; 
   };
+
