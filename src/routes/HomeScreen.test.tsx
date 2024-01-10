@@ -1,25 +1,32 @@
 import { mockReactNativeFirestore } from 'firestore-jest-mock';
-import { mockCollection } from 'firestore-jest-mock/mocks/firestore';
+import * as api from '../services/api';
+import { waitFor } from '@testing-library/react-native';
 
 mockReactNativeFirestore({
   database: {
-    users: [{"id":"diZqYcp7jZFn8qUgOalE","userName":"Yaren","password":"12345678"},{"id":"mfU12DAF67QIooMG9Et0","userName":"Cankat","password":"1234567"},{"id":"roCGOruDxAf1Aa9CXaJi","userName":"Sedat","password":"123456"}],
+    users: [
+      {"id":"diZqYcp7jZFn8qUgOalE","userName":"Yaren","password":"12345678"},
+      {"id":"mfU12DAF67QIooMG9Et0","userName":"Cankat","password":"1234567"},
+      {"id":"roCGOruDxAf1Aa9CXaJi","userName":"Sedat","password":"123456"}
+    ],
   },
 });
 
+jest.mock('../services/api', () => ({
+  getUsers: jest.fn().mockResolvedValueOnce([
+    {"id":"diZqYcp7jZFn8qUgOalE","userName":"Yaren","password":"12345678"},
+    {"id":"mfU12DAF67QIooMG9Et0","userName":"Cankat","password":"1234567"},
+    {"id":"roCGOruDxAf1Aa9CXaJi","userName":"Sedat","password":"123456"}
+  ]),
+}));
 
-test('Kullanıcılar içerisinde Sedat kullanıcına ait bir kullanıcı var mı?', () => {
-    const { Firestore } = require('@react-native-firebase/firestore');
-    const firestore = new Firestore();
-  
-    return firestore
-      .collection('users')
-      .get()
-      .then(userDocs => {
-        expect(mockCollection).toHaveBeenCalledWith('users');
-
-        const userNames = userDocs.docs.map(doc => doc.data().userName);
-        
-        expect(userNames.includes('Sedat')).toBe(true);
-      });
+test('Kullanıcılar içerisinde Sedat kullanıcına ait bir kullanıcı var mı?', async () => {
+  await waitFor(() => {
+    expect(api.getUsers).toHaveBeenCalled();
   });
+
+  const users = await api.getUsers();
+  expect(users.map(user => user.userName)).toEqual(
+    expect.arrayContaining(['Sedat'])
+  );
+});
