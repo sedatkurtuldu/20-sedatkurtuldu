@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements';
 import { checkUserExists } from '../services/api';
 
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,7 +14,9 @@ const LoginScreen = ({navigation}) => {
         const userExists = await checkUserExists(username,password);
     
         if (userExists) {
+
           navigation.navigate("HomeScreen");
+          
         } else {
          
           alert("Kullanıcı bulunamadı");
@@ -32,6 +34,7 @@ const LoginScreen = ({navigation}) => {
       <View style={styles.inputContainer}>
         <Icon name="user" type="font-awesome" size={24} />
         <TextInput
+          testID='usernameInput'
           style={styles.input}
           placeholder="Kullanıcı Adı"
           onChangeText={(text) => setUsername(text)}
@@ -42,6 +45,7 @@ const LoginScreen = ({navigation}) => {
       <View style={styles.inputContainer}>
         <Icon name="lock" type="font-awesome" size={24} />
         <TextInput
+          testID='passwordInput'
           style={styles.input}
           placeholder="Şifre"
           secureTextEntry
@@ -50,7 +54,7 @@ const LoginScreen = ({navigation}) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+      <TouchableOpacity testID="loginButton" style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>Giriş Yap</Text>
       </TouchableOpacity>
     </View>
